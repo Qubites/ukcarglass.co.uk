@@ -1,0 +1,120 @@
+{\rtf1\ansi\deff0
+UKCarGlass – Website Setup (BEST PRACTICE / v1.2)\par
+\par
+Purpose\par
+Build ukcarglass.co.uk as a mobile-first UK booking platform that dispatches vetted mobile technicians to the customer’s address.\par
+No branches. No local addresses. No location phone numbers. No “near me” city landing pages unless explicitly approved.\par
+\par
+Non‑negotiables\par
+- Glass type is selected first (Windscreen / Rear / Side) before any long forms.\par
+- Registration is the primary vehicle identifier. VIN is fallback.\par
+- Never guess silently. Always confirm vehicle if confidence is low.\par
+- Show a price estimate BEFORE showing the calendar.\par
+- Side windows are supported in the flow but not promoted as a marketing topic.\par
+- One primary CTA per page: “Get price and book”.\par
+\par
+Information Architecture (indexable pages)\par
+Money + trust pages (index):\par
+- / (Home – booking-first)\par
+- /book (single booking route; steps are UI state via /book?step=1..7)\par
+- /coverage (postcode checker; no “branches”)\par
+- /pricing\par
+- /how-it-works\par
+- /insurance\par
+- /adas-calibration\par
+- /warranty\par
+- /reviews\par
+- /contact\par
+- /about\par
+- /terms /privacy /cookies\par
+\par
+Traffic engine (index, evergreen; no “news blog”):\par
+- /tools\par
+- /tools/windscreen-cost-estimator\par
+- /guides (hub)\par
+- /guides/windscreen-replacement-cost\par
+- /guides/insurance-vs-private\par
+- /guides/adas-calibration-explained\par
+- /guides/can-i-drive-with-a-cracked-windscreen\par
+- /guides/how-long-does-windscreen-replacement-take\par
+- /guides/repair-vs-replace\par
+\par
+Vehicles program (curated; index only when quality-gated passes):\par
+- /vehicles (hub)\par
+- /vehicles/[make]\par
+- /vehicles/[make]/[model]\par
+- /vehicles/[make]/[model]/[yearRange] (optional)\par
+\par
+Booking Flow (single /book route)\par
+Route: /book with URL-synced state /book?step=1..7\par
+\par
+Step 1: Select glass position\par
+- Options: Windscreen / Rear / Side\par
+\par
+Step 2: Enter registration number\par
+- Validate format; allow “I don’t have it” fallback to manual make/model/year.\par
+\par
+Step 3: Resolve vehicle + explicit confirmation\par
+- Backend: reg -> VIN -> vehicle profile\par
+- Display: Make / Model / Year / Body type (+ note if uncertain)\par
+- Require user confirmation.\par
+\par
+Step 4: Glass refinements (progressive disclosure)\par
+- ADAS presence question (with tooltip + examples)\par
+- Side window branch visual selector:\par
+  - Left/Right, Front/Rear, Fixed/Vent/Drop, plus “Not sure”\par
+- If ambiguity remains: ask one clarifying question, then allow “manual review”.\par
+\par
+Step 5: Quote summary (must be before calendar)\par
+- Show: estimated price range + “what’s included” + warranty + ADAS note\par
+- Toggle: insurance vs private\par
+- CTA: Continue to availability\par
+\par
+Step 6: Choose date/time window\par
+- Simple availability grid\par
+\par
+Step 7: Details + address + confirmation\par
+- Name, phone, email\par
+- Service address + notes\par
+- Final CTA: “Pay & confirm booking” (Stripe Checkout)\par
+\par
+Confirmation: /book/confirmed\par
+- Show booking reference, next steps, support, reschedule link.\par
+\par
+Payments (Stripe Checkout – required)\par
+- Payment happens after quote + slot + address, before final confirmation.\par
+- Create a Stripe Checkout Session server-side; redirect user; return to /book/confirmed.\par
+\par
+Server requirements:\par
+- createCheckoutSession(bookingDraftId) -> \{ url \}\par
+- webhook handler:\par
+  - checkout.session.completed -> mark booking as paid, store payment_intent/session_id\par
+  - checkout.session.expired -> keep draft, allow retry\par
+\par
+Config flags (env)\par
+- PAYMENT_MODE = pay_now | deposit | pay_later (default pay_now)\par
+\par
+Tech Stack (recommended)\par
+- Next.js (App Router) + TypeScript + Tailwind\par
+- Supabase (Postgres) for storage; auth optional\par
+- Stripe for payments\par
+\par
+Data Model (minimal)\par
+vehicles, quotes, booking_drafts, bookings, payments, coverage_rules (see code comments)\par
+\par
+API / Server Actions (contract)\par
+- resolveVehicle(reg)\par
+- getCoverage(postcode)\par
+- createQuote(payload)\par
+- createBookingDraft(payload)\par
+- createCheckoutSession(booking_draft_id)\par
+- stripeWebhook(event)\par
+\par
+Noindex / indexing rules (must implement)\par
+- /book?step=* -> NOINDEX, FOLLOW\par
+- /book/confirmed -> NOINDEX, FOLLOW\par
+- Vehicles default NOINDEX until page_quality >= 70\par
+- No thin location/city pages\par
+- Side-window informational pages -> NOINDEX, FOLLOW\par
+
+}

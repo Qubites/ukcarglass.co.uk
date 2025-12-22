@@ -1,0 +1,262 @@
+{
+  "openapi": "3.0.4",
+  "info": {
+    "title": "UK Vehicle Data Limited - VehicleDetailsWithImage",
+    "description": "Auto-Generated OpenAPI documentation for package name 'VehicleDetailsWithImage'",
+    "contact": {
+      "name": "UK Vehicle Data Limited",
+      "url": "https://www.ukvehicledata.co.uk/",
+      "email": "help@ukvehicledata.co.uk"
+    },
+    "version": "1.0.8.0"
+  },
+  "servers": [
+    {
+      "url": "https://uk.api.vehicledataglobal.com",
+      "description": "API Endpoint for UK Vehicle Data Limited"
+    }
+  ],
+  "paths": {
+    "/r2/lookup": {
+      "get": {
+        "tags": [
+          "VehicleDetailsWithImage"
+        ],
+        "summary": "Perform lookup against UK Vehicle Data Limited",
+        "description": "Perform a lookup against UK Vehicle Data to retrieve back; VehicleDetails, ModelDetails, VehicleImageDetails.\nSearch using one of the following query parameters; Vrm, Vin, UkvdId, Uvc.",
+        "operationId": "PerformLookup",
+        "parameters": [
+          {
+            "name": "ApiKey",
+            "in": "query",
+            "description": "API Key to Authorize the Lookup",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "PackageName",
+            "in": "query",
+            "description": "Package Name",
+            "required": true,
+            "schema": {
+              "pattern": "^[a-zA-Z0-9]{0,80}$",
+              "type": "string"
+            }
+          },
+          {
+            "name": "Vrm",
+            "in": "query",
+            "description": "The Vehicle Registration Mark",
+            "schema": {
+              "type": "string",
+              "format": "^[A-Z]{2}[0-9]{2}\\s?[A-Z]{3}$"
+            }
+          },
+          {
+            "name": "Vin",
+            "in": "query",
+            "description": "The Vehicle Identification (Chassis) Number",
+            "schema": {
+              "type": "string",
+              "format": "^[A-HJ-NPR-Z0-9]{20}$"
+            }
+          },
+          {
+            "name": "UkvdId",
+            "in": "query",
+            "description": "The UKVD Identification Number",
+            "schema": {
+              "type": "string",
+              "format": "V-[a-zA-Z0-9]{6}"
+            }
+          },
+          {
+            "name": "Uvc",
+            "in": "query",
+            "description": "The UKVD Vehicle Code",
+            "schema": {
+              "type": "string",
+              "format": "M-[a-zA-Z0-9]{5}"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lookup Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseWithResults"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseWithoutResults"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate Limit Exceeded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseWithoutResults"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseWithoutResults"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ResponseWithResults": {
+        "type": "object",
+        "properties": {
+          "RequestInformation": {
+            "type": "object",
+            "properties": {
+              "PackageName": {
+                "title": "PackageName",
+                "type": "string",
+                "description": "The name of the package that was used to make the request.",
+                "nullable": true
+              },
+              "SearchTerm": {
+                "title": "SearchTerm",
+                "type": "string",
+                "description": "The value used to do the look up.",
+                "nullable": true
+              },
+              "SearchType": {
+                "title": "SearchType",
+                "type": "string",
+                "description": "Which data item that is being looked up.",
+                "nullable": true
+              },
+              "RequestIp": {
+                "title": "RequestIp",
+                "type": "string",
+                "description": "The IP address where the request was made from.",
+                "nullable": true
+              }
+            }
+          },
+          "ResponseInformation": {
+            "type": "object",
+            "properties": {
+              "StatusCode": {
+                "title": "StatusCode",
+                "enum": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5,
+                  6,
+                  7,
+                  8,
+                  9,
+                  10,
+                  11,
+                  12,
+                  13,
+                  14,
+                  15,
+                  17,
+                  18,
+                  19,
+                  20,
+                  21,
+                  22,
+                  23,
+                  24,
+                  25,
+                  26,
+                  27,
+                  28,
+                  29
+                ],
+                "type": "integer",
+                "description": "The status of the response\n0 = Success\n1 = SuccessWithResultsBlockWarnings\n2 = NoResultsFound\n3 = BillingFailure\n4 = FilterIpFailure\n5 = FilterCustomFailure\n6 = SandboxValidationFailure\n7 = UnknownApiKey\n8 = UnknownPackage\n9 = UnknownSearchType\n10 = ThirdPartyFailure\n11 = FailedPackageRule\n12 = BadlyFormedUrl\n13 = InvalidSearchTerm\n14 = NoSearchTermFound\n15 = MultipleSearchTermsFound\n17 = InformationTemporarilyUnavailable\n18 = PackageRestrictedFromApiKey\n19 = ApiKeyReachedConcurrentLimit\n20 = ApiKeyReachedDailyLimit\n21 = PlateInRetentionLastVehicleReturned\n22 = ApiKeyInvalidForPackage\n23 = AccountNotActive\n24 = DataIntegrityWarning\n25 = NoDvlaRegistrationDataAvailable\n26 = NoMatchFound\n27 = PackageReachedConcurrentLimit\n28 = PackageReachedDailyLimit\n29 = UnknownRevision",
+                "format": "int32",
+                "example": 0
+              },
+              "StatusMessage": {
+                "title": "StatusMessage",
+                "type": "string",
+                "description": "The status of the response as text",
+                "nullable": true
+              },
+              "IsSuccessStatusCode": {
+                "title": "IsSuccessStatusCode",
+                "type": "boolean",
+                "description": "This returns whether the status of the response indicates that the request was successful."
+              },
+              "QueryTimeMs": {
+                "title": "QueryTimeMs",
+                "type": "integer",
+                "description": "This is the amount of time the query took to execute in milliseconds",
+                "format": "int64"
+              },
+              "ResponseId": {
+                "title": "ResponseId",
+                "type": "string",
+                "description": "This is the unique identifier of the report. Use this when referring to any issues with the results with support.",
+                "format": "uuid"
+              }
+            }
+          },
+          "BillingInformation": {
+            "type": "object"
+          },
+          "Results": {
+            "type": "object"
+          }
+        }
+      },
+      "ResponseWithoutResults": {
+        "type": "object",
+        "properties": {
+          "RequestInformation": {
+            "type": "object"
+          },
+          "ResponseInformation": {
+            "type": "object"
+          },
+          "BillingInformation": {
+            "type": "object"
+          },
+          "Results": {
+            "type": "object"
+          }
+        }
+      }
+    }
+  },
+  "externalDocs": {
+    "description": "Further API documentation for UK Vehicle Data Limited can be found in your Control Panel.",
+    "url": "https://cp.ukvehicledata.co.uk/"
+  }
+}

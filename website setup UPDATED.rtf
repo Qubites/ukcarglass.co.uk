@@ -1,0 +1,228 @@
+{\rtf1\ansi\deff0
+UKCarGlass – Website Setup (UPDATED)\par
+Version: 1.1\par
+\par
+Purpose\par
+Build the new ukcarglass.co.uk website as a mobile-first, nationwide UK booking platform that dispatches vetted mobile technicians. No branches, no local addresses, no multiple phone numbers.\par
+\par
+Option Strategy (must implement)\par
+Opt 1: Coverage hub + postcode checker (primary discovery/validation)\par
+Opt B: Curated vehicle pages (AI-friendly, NOT mass generated)\par
+\par
+Primary Routes\par
+- / (Home – booking-first)\par
+- /book (Single booking route; steps via state or /book?step=1..7)\par
+- /coverage (Nationwide coverage + postcode checker; no “branches”)\par
+- /how-it-works\par
+- /pricing\par
+- /insurance\par
+- /adas-calibration\par
+- /warranty\par
+- /reviews\par
+- /contact\par
+- /about\par
+- /terms /privacy /cookies\par
+\par
+Coverage Page: High-Converting Blocks\par
+Hero\par
+- H1: Nationwide mobile windscreen replacement\par
+- Sub: We come to your address, anywhere in the UK. Enter your postcode to confirm coverage and typical availability.\par
+- Input label: Postcode\par
+- Primary CTA: Check coverage\par
+- Secondary CTA: Get price and book\par
+\par
+Result states\par
+- Covered: Good news, we cover your area. Typical availability: \{min\}-\{max\} days. CTA: Continue to booking\par
+- Not covered: We don’t currently cover this postcode. Offer: Leave your details and we’ll notify you when we expand.\par
+\par
+Map block (no fake pins)\par
+- Title: Mobile technicians, not branches\par
+- Copy: UKCarGlass is an online booking platform. We dispatch vetted mobile technicians from our nationwide network to your chosen address.\par
+\par
+What affects availability\par
+- Glass type (front/rear/side)\par
+- ADAS cameras/sensors\par
+- Heated/acoustic glass\par
+- Vehicle variant\par
+- Stock and delivery time\par
+\par
+Trust strip chips\par
+- Nationwide mobile service\par
+- ADAS support\par
+- Warranty included\par
+- Clear pricing before booking\par
+- Support by phone + chat\par
+\par
+Coverage FAQ\par
+- Do you have local branches? No. We’re mobile. We come to your address with the correct glass and tools.\par
+- Who does the work? A vetted technician from our nationwide network, booked and supported through UKCarGlass.\par
+- Can you do workplace/driveway installs? Yes, as long as there’s safe access and space to work.\par
+\par
+Curated Vehicle Pages (Opt B)\par
+URL format:\par
+- /vehicles/\{make\}/\{model\}/\{year-range\}\par
+Example: /vehicles/ford/focus/2018-2024\par
+Rule: Avoid chassis in the URL. If chassis matters, show it on-page after VIN/reg resolution.\par
+\par
+Vehicle Page Template Blocks\par
+Hero\par
+- H1: \{Make\} \{Model\} windscreen replacement (\{YearRange\})\par
+- Sub: Mobile service across the UK. Get a price estimate and book in minutes.\par
+- CTA: Get price and book\par
+- Microcopy: Start with your registration to match the correct glass.\par
+\par
+TL;DR box\par
+- Service: Mobile windscreen replacement at your chosen address\par
+- What’s included: Glass, fitting, consumables, disposal\par
+- ADAS: If your car has cameras/sensors, calibration may be required\par
+- Best next step: Enter your registration for an accurate match\par
+\par
+Common options (only if true/data-backed)\par
+- Heated windscreen\par
+- Acoustic glass\par
+- Rain/light sensor\par
+- Lane camera (ADAS)\par
+\par
+Typical price range block (honest)\par
+- Copy: Most \{Make\} \{Model\} (\{YearRange\}) jobs fall in the range of £\{low\}–£\{high\}, depending on glass type and ADAS.\par
+- Note: Final price is confirmed after registration lookup.\par
+\par
+Schema JSON-LD (Main Pages)\par
+\par
+1) Site-wide (global layout)\par
+<script type="application/ld+json">\par
+\{\par
+  "@context": "https://schema.org",\par
+  "@graph": [\par
+    \{\par
+      "@type": "Organization",\par
+      "@id": "https://ukcarglass.co.uk/#org",\par
+      "name": "UKCarGlass",\par
+      "url": "https://ukcarglass.co.uk/",\par
+      "logo": "https://ukcarglass.co.uk/logo.png",\par
+      "sameAs": ["https://www.trustpilot.com/review/ukcarglass.co.uk"],\par
+      "contactPoint": [\{\par
+        "@type": "ContactPoint",\par
+        "contactType": "customer support",\par
+        "telephone": "+44XXXXXXXXXX",\par
+        "email": "support@ukcarglass.co.uk",\par
+        "areaServed": "GB",\par
+        "availableLanguage": ["en-GB"]\par
+      \}]\par
+    \},\par
+    \{\par
+      "@type": "WebSite",\par
+      "@id": "https://ukcarglass.co.uk/#website",\par
+      "url": "https://ukcarglass.co.uk/",\par
+      "name": "UKCarGlass",\par
+      "publisher": \{ "@id": "https://ukcarglass.co.uk/#org" \},\par
+      "inLanguage": "en-GB"\par
+    \}\par
+  ]\par
+\}\par
+</script>\par
+\par
+2) Home page (Service)\par
+<script type="application/ld+json">\par
+\{\par
+  "@context": "https://schema.org",\par
+  "@type": "Service",\par
+  "@id": "https://ukcarglass.co.uk/#service",\par
+  "name": "Mobile windscreen replacement",\par
+  "provider": \{ "@id": "https://ukcarglass.co.uk/#org" \},\par
+  "areaServed": "GB",\par
+  "serviceType": ["Windscreen replacement", "Auto glass replacement"],\par
+  "url": "https://ukcarglass.co.uk/",\par
+  "description": "Online booking platform for mobile windscreen replacement across the UK. Pricing and booking are confirmed after registration lookup."\par
+\}\par
+</script>\par
+\par
+3) Coverage page (FAQPage)\par
+<script type="application/ld+json">\par
+\{\par
+  "@context": "https://schema.org",\par
+  "@type": "FAQPage",\par
+  "mainEntity": [\par
+    \{\par
+      "@type": "Question",\par
+      "name": "Do you have local branches?",\par
+      "acceptedAnswer": \{ "@type": "Answer", "text": "No. UKCarGlass is a mobile service. We dispatch a vetted technician to your chosen address." \}\par
+    \},\par
+    \{\par
+      "@type": "Question",\par
+      "name": "Do you cover my area?",\par
+      "acceptedAnswer": \{ "@type": "Answer", "text": "Use the postcode checker on this page to confirm coverage and typical availability." \}\par
+    \},\par
+    \{\par
+      "@type": "Question",\par
+      "name": "Who carries out the work?",\par
+      "acceptedAnswer": \{ "@type": "Answer", "text": "Work is completed by a vetted mobile technician from our nationwide network, booked and supported through UKCarGlass." \}\par
+    \}\par
+  ]\par
+\}\par
+</script>\par
+\par
+4) Vehicle pages (BreadcrumbList + FAQPage)\par
+<script type="application/ld+json">\par
+\{\par
+  "@context": "https://schema.org",\par
+  "@type": "BreadcrumbList",\par
+  "itemListElement": [\par
+    \{ "@type": "ListItem", "position": 1, "name": "Vehicles", "item": "https://ukcarglass.co.uk/vehicles" \},\par
+    \{ "@type": "ListItem", "position": 2, "name": "\{Make\}", "item": "https://ukcarglass.co.uk/vehicles/\{make\}" \},\par
+    \{ "@type": "ListItem", "position": 3, "name": "\{Model\}", "item": "https://ukcarglass.co.uk/vehicles/\{make\}/\{model\}" \},\par
+    \{ "@type": "ListItem", "position": 4, "name": "\{YearRange\}", "item": "https://ukcarglass.co.uk/vehicles/\{make\}/\{model\}/\{yearRange\}" \}\par
+  ]\par
+\}\par
+</script>\par
+\par
+<script type="application/ld+json">\par
+\{\par
+  "@context": "https://schema.org",\par
+  "@type": "FAQPage",\par
+  "mainEntity": [\par
+    \{\par
+      "@type": "Question",\par
+      "name": "How do I ensure the correct glass for my \{Make\} \{Model\}?",\par
+      "acceptedAnswer": \{ "@type": "Answer", "text": "Start the booking with your registration. We use vehicle lookup to match the correct glass and options such as ADAS or heated screens." \}\par
+    \},\par
+    \{\par
+      "@type": "Question",\par
+      "name": "Do you come to my address?",\par
+      "acceptedAnswer": \{ "@type": "Answer", "text": "Yes. We dispatch a mobile technician to your chosen address across the UK (subject to postcode coverage)." \}\par
+    \}\par
+  ]\par
+\}\par
+</script>\par
+\par
+Schema guardrail\par
+Only add AggregateRating/Review schema if you have real, verifiable numbers. No placeholders.\par
+\par
+Noindex Rules (must implement)\par
+Default = NOINDEX for programmatic pages until quality proven.\par
+\par
+NOINDEX, FOLLOW:\par
+- Side-window informational pages (if any)\par
+- Vehicle pages that are thin/duplicate or lack data-backed uniqueness\par
+- Any location/city page you can’t make unique (avoid these anyway)\par
+- Utility pages (search, filters, /book/confirmed, etc.)\par
+\par
+INDEX:\par
+- Core pages: /, /coverage, /how-it-works, /pricing, /insurance, /adas-calibration, /warranty, /reviews, /contact, /about, legal pages.\par
+- Vehicle pages only if page_quality >= 70.\par
+\par
+Page quality scoring (0..100)\par
++25 model-specific options (data-backed)\par
++25 model-specific price range\par
++20 4+ tailored FAQs\par
++15 model-specific ADAS guidance\par
++15 uniqueness score (low duplication)\par
+Index only if >= 70.\par
+\par
+Implementation hint (Next.js)\par
+If page_quality < threshold:\par
+<meta name="robots" content="noindex,follow">\par
+Else:\par
+<meta name="robots" content="index,follow">\par
+
+}

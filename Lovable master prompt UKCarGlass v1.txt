@@ -1,0 +1,82 @@
+LOVABLE MASTER PROMPT — UKCarGlass (Best-of-the-best)
+
+Goal
+Generate a production-ready Next.js (App Router) + TypeScript + Tailwind project for ukcarglass.co.uk.
+Maximise bookings with a single /book flow (steps via /book?step=1..7).
+Include trust/money pages + a small evergreen traffic engine (Tools + Guides).
+Enforce strict noindex rules for transactional/programmatic pages.
+
+Non-negotiables
+- No branches, no local addresses, no location phone numbers.
+- Glass type selected first (Windscreen/Rear/Side).
+- Registration is primary ID; VIN fallback.
+- Never guess silently. Explicit vehicle confirmation when confidence is low.
+- Show price estimate BEFORE calendar selection.
+- Side windows supported but not promoted (no SEO push).
+- One primary CTA per page: “Get price and book”.
+- No fake stats/claims. Label placeholders.
+
+Tech
+- Next.js App Router, TypeScript, Tailwind
+- Supabase Postgres
+- Stripe Checkout + webhook
+- Server Actions / Route Handlers
+
+Routes
+Index:
+- /, /coverage, /pricing, /how-it-works, /insurance, /adas-calibration, /warranty, /reviews, /contact, /about, /privacy, /cookies, /terms
+Traffic engine (index):
+- /tools, /tools/windscreen-cost-estimator
+- /guides + guide pages (cost, insurance vs private, ADAS, legality, time, repair vs replace)
+Flow (noindex):
+- /book, /book/confirmed
+Vehicles (curated; quality-gated):
+- /vehicles + dynamic routes (noindex until quality passes)
+
+Booking flow steps (single /book route)
+1) glass type
+2) registration
+3) resolve vehicle + confirm
+4) refinements (ADAS + side window visual selector)
+5) quote summary (price range + caveats + what’s included)  **before calendar**
+6) availability select
+7) details + address -> Stripe Checkout
+
+Backend contract
+- resolveVehicle(reg)
+- getCoverage(postcode)
+- createQuote(payload)
+- createBookingDraft(payload)
+- createCheckoutSession(booking_draft_id)
+- stripeWebhook()
+
+Robots/meta
+- /book + /book/confirmed: noindex,follow
+- /vehicles/*: if page_quality < 70 => noindex,follow else index,follow
+- Generate sitemap.xml with ONLY indexable pages.
+
+Schema JSON-LD
+- Global: Organization + WebSite
+- Home: Service
+- Coverage: FAQPage
+- Vehicle: BreadcrumbList + FAQPage
+No Review schema unless real.
+
+ENV VARS (README + code)
+NEXT_PUBLIC_SITE_URL=
+SUPABASE_URL=
+SUPABASE_ANON_KEY=
+SUPABASE_SERVICE_ROLE_KEY=
+STRIPE_SECRET_KEY=
+STRIPE_WEBHOOK_SECRET=
+(optional) VEHICLE_LOOKUP_API_KEY=
+(optional) WHATWINDSCREEN_API_KEY=
+(optional) AUTOGLASSCRM_API_KEY=
+
+Deliverables
+- Full Next.js project
+- Supabase SQL schema
+- Stripe checkout + webhook
+- Robots/noindex gating + sitemap
+- JSON-LD
+- README with setup + env vars
